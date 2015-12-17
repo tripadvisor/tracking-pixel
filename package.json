@@ -1,0 +1,16 @@
+{
+  "name": "tracking-pixel",
+  "version": "1.0.0",
+  "description": "TA Tracking Pixel library",
+  "main": "loader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "mkdir -p build && uglifyjs src/loader.js -cm -o build/loader.min.js && uglifyjs src/taevents.js -cm -o build/taevents.min.js",
+    "clean": "rm -rf build"
+  },
+  "author": "mtownsend",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "uglify-js": "^2.6.1"
+  }
+}
