@@ -14,6 +14,8 @@ var PORT = 80;
 var http = require('http')
 ,   query = require('querystring')
 ,   Promise = require('promise')
+,   path = require('path')
+,   fs = require('fs')
 ,   server = http.createServer(handleRequest)
 ;
 
@@ -44,12 +46,41 @@ function processPost(req, res) {
   });
 }
 
+function serveFile(req, res) {
+  var filePath = '.' + req.url
+  ,   ext
+  ,   type
+  ;
+
+  if (filePath === './') { filePath = './test.html' }
+  ext = path.extname(filePath);
+  if (ext === '.js') {
+    type = 'text/javascript';
+  }
+  type = ext === '.js' ? 'text/javascript' : 'text/html';
+  fs.readFile(filePath, function(error, content) {
+    if (error) {
+      res.writeHead(404, { 'Content-Type': type });
+      res.end();
+    }
+    else {
+      res.writeHead(200, {
+        'Content-Type': type,
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type'
+      });
+      res.end(content, 'utf-8');
+    }
+  });
+
+}
+
 function handleRequest(req, res) {
 
   if (req.method === 'POST') {
     processPost(req, res).then(function (data) {
       res.writeHead(200, {
-        'Content-Type': 'text/json',
+        'Content-Type': 'text/plain',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type'
       });
@@ -57,11 +88,7 @@ function handleRequest(req, res) {
       res.end();
     });
   } else {
-    res.writeHead(200, {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type'
-    });
-    res.end();
+    serveFile(req, res);
   }
 }
 

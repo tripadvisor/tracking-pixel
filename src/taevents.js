@@ -11,7 +11,7 @@
 (function(window, document, undefined) {
   'use strict';
 
-  var URL = 'http://localhost';
+  var URL = 'http://10.110.255.252/';
   var POST_MAX = 1024; // Max size of the POST payload (TBD)
 
   var _id = null;
@@ -63,7 +63,7 @@
     data = data || {};
     data.id = _id;
     data.event = event;
-    _request(data, function(r) { console.log('RESPONSE!', r); }); // TODO: Remove console log
+    _request(data, function(r) { document.write('RESPONSE! ' + r); }); // TODO: Remove
   }
 
   try {
