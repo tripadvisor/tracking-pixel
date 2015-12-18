@@ -13,6 +13,8 @@
 
   var URL = 'http://localhost';
 
+  var _id = null;
+
   function _error(e) {
     console.log('ERROR! ', e.message, e.stack);
   }
@@ -36,21 +38,39 @@
     x.send();
   }
 
+  function _init(id) {
+    _id = id;
+  }
+
+  function _track(event, data) {
+
+    if (!_id) {
+      console.error('TripAdvisor partner ID must be specified before tracking');
+    }
+
+    data = data || {};
+    data.id = _id;
+    data.command = 'track';
+    data.event = event;
+    _request(data, function(r) { console.log('RESPONSE!', r); });
+  }
+
   try {
     var queue = window.taq ? window.taq.queue : []
     ,   i
     ;
 
-    window.taq = function (command, event, data) {
+    window.taq = function (command) {
       try {
-        data = data || {};
+        var args = Array.prototype.slice.call(arguments, 1);
 
-        // TODO: All the things!
+        switch(command.toLowerCase()) {
+          case "init":
+            return _init(args[0]);
+          case "track":
+            return _track(args[0], args[1]);
+        }
 
-        data.command = command;
-        data.event = event;
-
-        _request(data, function(r) { console.log('RESPONSE!', r); });
       } catch(e) {
         // Some problem in event execution
         _error(e);
