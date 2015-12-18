@@ -11,8 +11,29 @@
 (function(window, document, undefined) {
   'use strict';
 
+  var URL = 'http://localhost';
+
   function _error(e) {
     console.log('ERROR! ', e.message, e.stack);
+  }
+
+  function _request(data, callback) {
+    var x = new(window.XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0')
+    ,   url = URL
+    ,   i
+    ;
+
+    for (i in data) {
+      url += (url.indexOf('?') >= 0 ? '&' : '?') + encodeURIComponent(i) + '=' + encodeURIComponent(data[i]);
+    }
+
+    x.open('GET', url, 1);
+    x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    x.onreadystatechange = function () {
+      x.readyState > 3 && callback && callback(x.responseText, x);
+    };
+    x.send();
   }
 
   try {
@@ -20,13 +41,16 @@
     ,   i
     ;
 
-    window.taq = function (command) {
+    window.taq = function (command, event, data) {
       try {
-        var args = Array.prototype.slice.call(arguments, 1);
+        data = data || {};
 
         // TODO: All the things!
 
-        console.log(command, args);
+        data.command = command;
+        data.event = event;
+
+        _request(data, function(r) { console.log('RESPONSE!', r); });
       } catch(e) {
         // Some problem in event execution
         _error(e);
