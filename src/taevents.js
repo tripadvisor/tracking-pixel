@@ -50,7 +50,6 @@
 
     data = data || {};
     data.id = _id;
-    data.command = 'track';
     data.event = event;
     _request(data, function(r) { console.log('RESPONSE!', r); });
   }
