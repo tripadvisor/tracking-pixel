@@ -3,7 +3,7 @@
 
   "name": "TA Pixel Helper",
   "description": "Helps validate your TripAdvisor Custom Audience pixels.",
-  "version": "0.0.0.01",
+  "version": "0.0.1",
   "background": {
     "scripts": ["background.js"]
   },
