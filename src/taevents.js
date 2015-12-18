@@ -18,7 +18,12 @@
 
   function _error(e) {
     // TODO: Send error to TA and/or log somewhere that the browser extension can pick up
-    console.log('ERROR! ', e.message, e.stack);
+    console.error(e.message, e.stack);
+  }
+
+  function _userError(msg) {
+    // TODO: Log this somewhere that the browser extension can pick up
+    console.error(msg);
   }
 
   function _request(data, callback) {
@@ -30,7 +35,7 @@
     for (i in data) {
       params += (params.length > 0 ? '&' : '') + encodeURIComponent(i) + '=' + encodeURIComponent(data[i]);
       if (params.length >= POST_MAX) {
-        // TODO: Track this somewhere
+        _userError('Tracking parameters too long');
         return;
       }
     }
@@ -51,13 +56,14 @@
   function _track(event, data) {
 
     if (!_id) {
-      console.error('TripAdvisor partner ID must be specified before tracking');
+      _userError('Partner ID not specified');
+      return;
     }
 
     data = data || {};
     data.id = _id;
     data.event = event;
-    _request(data, function(r) { console.log('RESPONSE!', r); });
+    _request(data, function(r) { console.log('RESPONSE!', r); }); // TODO: Remove console log
   }
 
   try {
