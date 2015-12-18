@@ -12,30 +12,36 @@
   'use strict';
 
   var URL = 'http://localhost';
+  var POST_MAX = 1024; // Max size of the POST payload (TBD)
 
   var _id = null;
 
   function _error(e) {
+    // TODO: Send error to TA and/or log somewhere that the browser extension can pick up
     console.log('ERROR! ', e.message, e.stack);
   }
 
   function _request(data, callback) {
     var x = new(window.XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0')
-    ,   url = URL
+    ,   params = ''
     ,   i
     ;
 
     for (i in data) {
-      url += (url.indexOf('?') >= 0 ? '&' : '?') + encodeURIComponent(i) + '=' + encodeURIComponent(data[i]);
+      params += (params.length > 0 ? '&' : '') + encodeURIComponent(i) + '=' + encodeURIComponent(data[i]);
+      if (params.length >= POST_MAX) {
+        // TODO: Track this somewhere
+        return;
+      }
     }
 
-    x.open('GET', url, 1);
+    x.open('POST', URL, 1);
     x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     x.onreadystatechange = function () {
       x.readyState > 3 && callback && callback(x.responseText, x);
     };
-    x.send();
+    x.send(params);
   }
 
   function _init(id) {

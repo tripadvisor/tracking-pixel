@@ -6,7 +6,7 @@
     <body>
         <h1>this is only a test</h1>
         <script>
-            !function(e,t,n,s,u,a,c){"use strict";e.taq||(u=e.taq=function(){u.queue.push(arguments)},u.queue=[],a=t.createElement(n),a.async=!0,a.src=s,c=t.getElementsByTagName(n)[0],c.parentNode.insertBefore(a,c))}(window,document,"script","build/taevents.min.js");
+            !function(e,t,n,r,s,a,o,i){"use strict";e.taq||(a=e.taq=function(){a.queue.push(arguments)},a.queue=[],/bot|googlebot|crawler|spider|robot|crawling/i.test(n.userAgent)||(o=t.createElement(r),o.async=!0,o.src=s,i=t.getElementsByTagName(r)[0],i.parentNode.insertBefore(o,i)))}(window,document,navigator,"script","build/taevents.min.js");
             taq('init', 'TA-ID');
             taq('track', 'PageView');
         </script>
