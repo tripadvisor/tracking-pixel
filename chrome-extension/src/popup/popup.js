@@ -10,29 +10,53 @@
 
   'use strict';
 
+  var pixelTemplate;
+
+  function createPixel(data) {
+    var pixel = document.importNode(pixelTemplate.content, true);
+
+    if (data.status !== 200) {
+      pixel.classList.add('error');
+      pixel.querySelector(".pixel-status").innerText = "Pixel failed to load!";
+    } else {
+      pixel.querySelector(".pixel-status").innerText = "Pixel loaded successfully.";
+    }
+
+    pixel.querySelector(".pixel-event").innerText = "Event ID: " + data.params.event;
+
+    return pixel;
+  }
+
   function renderPixels() {
 
-    var pixelList = document.getElementById('pixels');
+    var pixelList = document.querySelector('#pixels')
+    ,   summary = document.querySelector('#summary')
+    ;
+
+    pixelTemplate = document.querySelector('#pixel-template');
 
     chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {
       // There will always be exactly one active tab, so this is safe
-      var tab = chrome.extension.getBackgroundPage().TabManager.get(tabs[0].id);
+      var tab = chrome.extension.getBackgroundPage().TabManager.get(tabs[0].id)
+      ,   pixels = document.createDocumentFragment()
+      ;
 
       Object.keys(tab.pixels).forEach(function(requestId) {
-        var pixelData = tab.pixels[requestId]
-        ,   pixel = document.createElement('li')
-        ;
-
-        pixel.className = 'pixel';
-        pixel.innerText = requestId;
-        // TODO
-
-        pixelList.appendChild(pixel);
+        pixels.appendChild(createPixel(tab.pixels[requestId]));
       });
 
-      if (pixelList.childElementCount > 0) {
-        document.getElementById('no-pixels').style.display = 'none';
+      pixelList.appendChild(pixels);
+      summary.innerText = summary.innerText.replace("{num}", pixelList.childElementCount > 0 ? pixelList.childElementCount : 'No');
+    });
+
+    pixelList.addEventListener('click', function(e) {
+      var target = e.target;
+      if (target.nodeName === 'SUMMARY') { return; }
+      while (target && target.nodeName !== 'LI') {
+        target = target.parentNode;
       }
+      if (!target || target.nodeName !== 'LI') { return; }
+      target.querySelector('summary').click();
     });
   }
 

@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lib:build": "mkdir -p tracking-library/build && uglifyjs tracking-library/src/loader.js -cm -o tracking-library/build/loader.min.js && uglifyjs tracking-library/src/taevents.js -cm -o tracking-library/build/taevents.min.js",
-    "extension:build": "mkdir -p chrome-extension/build && uglifyjs chrome-extension/src/background/*.js -b -o chrome-extension/build/background.min.js && uglifyjs chrome-extension/src/popup/*.js -cm -o chrome-extension/build/popup.min.js",
+    "extension:build": "mkdir -p chrome-extension/build && uglifyjs chrome-extension/src/background/*.js -b -o chrome-extension/build/background.min.js && uglifyjs chrome-extension/src/popup/*.js -b -o chrome-extension/build/popup.min.js",
     "build": "npm run lib:build && npm run extension:build",
     "clean": "rm -rf tracking-library/build && rm -rf chrome-extension/build"
   },

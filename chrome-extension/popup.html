@@ -7,10 +7,21 @@
     </head>
     <body>
         <h1>TA Pixel Helper</h1>
-        <ul id="pixels">
-        </ul>
-        <div id="no-pixels">
-            No pixels found
+        <div id="summary">
+            {num} pixels found.
         </div>
+        <ul id="pixels"></ul>
+
+        <!-- Pixel template -->
+        <template id="pixel-template">
+            <li class="pixel">
+                <h2 class="pixel-status"></h2>
+                <h3 class="pixel-event"></h3>
+                <details>
+                    <summary>View event log</summary>
+                    <ul class="pixel-log"></ul>
+                </details>
+            </li>
+        </template>
     </body>
 </html>
