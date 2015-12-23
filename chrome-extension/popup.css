@@ -1,0 +1,23 @@
+body { margin: 0; padding: 0; width: 400px; color: #4a4a4a; }
+h1 {
+    margin: 0;
+    padding: 10px;
+    background: #f4f3f0;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    font-size: 18px;
+    font-weight: normal;
+}
+
+#no-pixels {
+    padding: 10px;
+}
+
+#pixels {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pixel {
+    padding: 10px;
+}

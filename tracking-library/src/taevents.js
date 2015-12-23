@@ -1,7 +1,7 @@
 /**
  * TA Tracking Library
  *
- * Lightweight library for allowing parters to
+ * Lightweight library for allowing partners to
  * send customer behaviour events to TA.
  *
  * @author mtownsend
@@ -11,7 +11,7 @@
 (function(window, document, undefined) {
   'use strict';
 
-  var URL = 'http://10.110.255.252/';
+  var URL = 'http://mtownsend.nw.dev.tripadvisor.com/TrackingPixel';
   var POST_MAX = 1024; // Max size of the POST payload (TBD)
 
   var _id = null;
@@ -63,7 +63,7 @@
     data = data || {};
     data.id = _id;
     data.event = event;
-    _request(data, function(r) { document.write('RESPONSE! ' + r); }); // TODO: Remove
+    _request(data);
   }
 
   try {
