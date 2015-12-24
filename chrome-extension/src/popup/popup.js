@@ -18,7 +18,7 @@
     ;
 
     if (data.status !== 200) {
-      pixel.classList.add('error');
+      pixel.querySelector('.pixel').classList.add('error');
       pixel.querySelector(".pixel-status").innerText = chrome.i18n.getMessage("failure");
     } else {
       pixel.querySelector(".pixel-status").innerText = chrome.i18n.getMessage("success");

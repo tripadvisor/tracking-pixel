@@ -14,7 +14,7 @@
   var URL = 'http://mtownsend.nw.dev.tripadvisor.com/TrackingPixel';
   var POST_MAX = 1024; // Max size of the POST payload (TBD)
 
-  var _id = null;
+  var _id = '';
 
   function _error(e) {
     // TODO: Send error to TA and/or log somewhere that the browser extension can pick up
@@ -54,11 +54,6 @@
   }
 
   function _track(event, data) {
-
-    if (!_id) {
-      _userError('Partner ID not specified');
-      return;
-    }
 
     data = data || {};
     data.id = _id;
