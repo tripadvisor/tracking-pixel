@@ -1,0 +1,44 @@
+{
+  "extName": {
+    "message": "TA Pixel Helper",
+    "description": "Name of the extension"
+  },
+  "extDesc": {
+    "message": "Helps validate your TripAdvisor Custom Audience pixels.",
+    "description": "Description of the extension"
+  },
+  "noPixels": {
+    "message": "No pixels found.",
+    "description": "Summary text when no pixels were detected"
+  },
+  "pixelsFound": {
+    "message": "Pixels found: $NUM$",
+    "description": "Summary text when pixels were detected",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
+  },
+  "success": {
+    "message": "Pixel loaded successfully",
+    "description": "Heading for a valid pixel request"
+  },
+  "failure": {
+    "message": "Pixel failed to load!",
+    "description": "Heading for an invalid pixel request"
+  },
+  "eventId": {
+    "message": "Event ID: $EVENT_ID$",
+    "description": "Label for the pixel's event id",
+    "placeholders": {
+      "event_id": {
+        "content": "$1"
+      }
+    }
+  },
+  "details": {
+    "message": "View details",
+    "description": "Label for the pixel details toggle"
+  }
+}

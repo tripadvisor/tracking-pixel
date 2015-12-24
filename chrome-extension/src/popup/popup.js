@@ -13,27 +13,43 @@
   var pixelTemplate;
 
   function createPixel(data) {
-    var pixel = document.importNode(pixelTemplate.content, true);
+    var pixel = document.importNode(pixelTemplate.content, true)
+    ,   details = pixel.querySelector('.pixel-details')
+    ;
 
     if (data.status !== 200) {
       pixel.classList.add('error');
-      pixel.querySelector(".pixel-status").innerText = "Pixel failed to load!";
+      pixel.querySelector(".pixel-status").innerText = chrome.i18n.getMessage("failure");
     } else {
-      pixel.querySelector(".pixel-status").innerText = "Pixel loaded successfully.";
+      pixel.querySelector(".pixel-status").innerText = chrome.i18n.getMessage("success");
     }
 
-    pixel.querySelector(".pixel-event").innerText = "Event ID: " + data.params.event;
+    pixel.querySelector(".pixel-event").innerText = chrome.i18n.getMessage("eventId", data.params.event);
+    pixel.querySelector("summary").innerText = chrome.i18n.getMessage("details");
+
+    Object.keys(data.params).forEach(function(key) {
+      var item = document.createElement('li')
+      ,   keyEl = document.createElement('span')
+      ;
+
+      keyEl.innerText = key + ':';
+      keyEl.className = 'key';
+      item.appendChild(keyEl);
+      item.appendChild(document.createTextNode(data.params[key]));
+      details.appendChild(item);
+    });
 
     return pixel;
   }
 
-  function renderPixels() {
+  function render() {
 
     var pixelList = document.querySelector('#pixels')
     ,   summary = document.querySelector('#summary')
     ;
 
     pixelTemplate = document.querySelector('#pixel-template');
+    document.querySelector('h1').innerText = chrome.i18n.getMessage("extName");
 
     chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {
       // There will always be exactly one active tab, so this is safe
@@ -46,7 +62,11 @@
       });
 
       pixelList.appendChild(pixels);
-      summary.innerText = summary.innerText.replace("{num}", pixelList.childElementCount > 0 ? pixelList.childElementCount : 'No');
+      if (pixelList.childElementCount > 0) {
+        summary.innerText = chrome.i18n.getMessage("pixelsFound", pixelList.childElementCount.toString());
+      } else {
+        summary.innerText = chrome.i18n.getMessage("noPixels");
+      }
     });
 
     pixelList.addEventListener('click', function(e) {
@@ -60,6 +80,6 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', renderPixels);
+  document.addEventListener('DOMContentLoaded', render);
 
 })(window, document, chrome);

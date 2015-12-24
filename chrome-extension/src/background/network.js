@@ -10,10 +10,10 @@
 
   'use strict';
 
+  var URL_PATTERN = "*://*.tripadvisor.com/TrackingPixel*"; // TODO: Change this to the real URL
+
   function getParams(details) {
-    var search
-    ,   index
-    ;
+    var index;
 
     if (details.requestBody) {
       // This was a POST, so just flatten the map
@@ -42,11 +42,10 @@
         url: details.url,
         status: -1,
         params: getParams(details)
-        // TODO: Retrieve request data for GET/POST
       });
 
     },
-    { urls: ["*://*.tripadvisor.com/*"] },
+    { urls: [URL_PATTERN] },
     [ 'requestBody' ]
   );
 
@@ -59,7 +58,7 @@
         status: details.statusCode
       }, details.statusCode !== 200);
     },
-    { urls: ["*://*.tripadvisor.com/*"] }
+    { urls: [URL_PATTERN] }
   );
 
 

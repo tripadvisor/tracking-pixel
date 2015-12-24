@@ -1,9 +1,10 @@
 {
   "manifest_version": 2,
 
-  "name": "TA Pixel Helper",
-  "description": "Helps validate your TripAdvisor Custom Audience pixels.",
+  "name": "__MSG_extName__",
+  "description": "__MSG_extDesc__",
   "version": "0.0.1",
+  "default_locale": "en",
   "background": {
     "scripts": ["build/background.min.js"]
   },

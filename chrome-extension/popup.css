@@ -1,7 +1,7 @@
 body { margin: 0; padding: 0; width: 400px; color: #4a4a4a; }
 h1 {
     margin: 0;
-    padding: 10px;
+    padding: 18px 10px;
     background: #f4f3f0;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     font-size: 18px;
@@ -9,7 +9,7 @@ h1 {
 }
 
 #summary {
-    padding: 10px;
+    padding: 18px 10px;
     font-size: 16px;
 }
 
@@ -17,17 +17,12 @@ h1 {
     padding: 10px;
 }
 
-#pixels {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
 .pixel {
-    border-top: 1px solid #999;
+    border-top: 1px solid #CCC;
     border-left: 4px solid #307A24;
     padding: 10px;
     cursor: pointer;
+    line-height: 1.4;
 }
 
 .pixel:hover {
@@ -36,6 +31,12 @@ h1 {
 
 .pixel.error {
     border-left-color: #ff0033;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 h2 {
@@ -48,7 +49,7 @@ h2 {
 h3 {
     margin: 0;
     padding: 0;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: normal;
     color: #999;
 }
@@ -56,4 +57,15 @@ h3 {
 summary {
     outline: none;
     cursor: pointer;
+    margin-top: 5px;
+    color: #999;
+}
+
+.pixel-details {
+    padding: 10px 5px;
+}
+
+.key {
+    font-weight: bold;
+    margin-right: 5px;
 }
