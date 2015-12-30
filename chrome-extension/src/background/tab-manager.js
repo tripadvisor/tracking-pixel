@@ -49,10 +49,11 @@
      * @param data Request data
      * @param error Was the response an error code
      */
-    logPixel: function(tabId, requestId, data, error) {
+    logPixel: function(tabId, requestId, data) {
       if (!tabs[tabId]) { return; }
       var tab = tabs[tabId]
       ,   pixel = tab.pixels[requestId]
+      ,   error = data.status > 0 && data.status !== 200
       ;
 
       if (!pixel) {

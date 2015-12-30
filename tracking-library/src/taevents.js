@@ -13,6 +13,7 @@
 
   var URL = 'http://mtownsend.nw.dev.tripadvisor.com/TrackingPixel';
   var POST_MAX = 1024; // Max size of the POST payload (TBD)
+  var ERROR_EVENT = '__ta_tracking_error'; // Matches definition in error-listener.js
 
   var _id = '';
 
@@ -21,9 +22,15 @@
     console.error(e.message, e.stack);
   }
 
-  function _userError(msg) {
-    // TODO: Log this somewhere that the browser extension can pick up
-    console.error(msg);
+  /**
+   * Reports a pixel error to the Chrome extension without the need for a 400 server response
+   * @param pixelData
+   * @param msg
+   * @private
+   */
+  function _pixelError(pixelData, msg) {
+    if (!window.postMessage) { return; }
+    window.postMessage({ type: ERROR_EVENT, params: pixelData, msg: msg }, '*');
   }
 
   function _request(data, callback) {
@@ -35,7 +42,7 @@
     for (i in data) {
       params += (params.length > 0 ? '&' : '') + encodeURIComponent(i) + '=' + encodeURIComponent(data[i]);
       if (params.length >= POST_MAX) {
-        _userError('Tracking parameters too long');
+        _pixelError(data, 'Tracking parameters too long');
         return;
       }
     }
@@ -58,6 +65,12 @@
     data = data || {};
     data.id = _id;
     data.event = event;
+
+    if (!_id) {
+      _pixelError(data, 'Partner ID not specified');
+      return;
+    }
+
     _request(data);
   }
 

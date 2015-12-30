@@ -12,6 +12,11 @@
     "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
+  "content_scripts": [{
+    "matches": ["*://*/*"],
+    "js": ["build/content.min.js"],
+    "run_at": "document_start"
+  }],
   "permissions": [
     "activeTab",
     "webRequest",

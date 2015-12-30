@@ -12,6 +12,16 @@
 
   var URL_PATTERN = "*://*.tripadvisor.com/TrackingPixel*"; // TODO: Change this to the real URL
 
+  function guid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
+  }
+
   function getParams(details) {
     var index;
 
@@ -56,11 +66,19 @@
       TabManager.logPixel(details.tabId, details.requestId, {
         url: details.url,
         status: details.statusCode
-      }, details.statusCode !== 200);
+      });
     },
     { urls: [URL_PATTERN] }
   );
 
+  chrome.runtime.onMessage.addListener(function(request, sender) {
+    if (request.type !== 'error') { return; }
+    TabManager.logPixel(sender.tab.id, guid(), {
+      status: 400,
+      params: request.params,
+      errorMsg: request.msg
+    });
+  });
 
 })(window, chrome);
 
