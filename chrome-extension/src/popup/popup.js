@@ -15,13 +15,15 @@
   function createPixel(data) {
     var pixel = document.importNode(pixelTemplate.content, true)
     ,   details = pixel.querySelector('.pixel-details')
+    ,   conversionStatus = document.createElement('span')
+    ,   isConversion = data.conversionStatus !== null
     ;
 
     if (data.status !== 200) {
       pixel.querySelector('.pixel').classList.add('error');
       pixel.querySelector(".pixel-status").innerText = data.errorMsg || chrome.i18n.getMessage("failure");
     } else {
-      pixel.querySelector(".pixel-status").innerText = chrome.i18n.getMessage("success");
+      pixel.querySelector(".pixel-status").innerText = chrome.i18n.getMessage("success") + (isConversion ? '*' : '');
     }
 
     pixel.querySelector(".pixel-event").innerText = chrome.i18n.getMessage("eventId", data.params.event);
@@ -38,6 +40,16 @@
       item.appendChild(document.createTextNode(data.params[key]));
       details.appendChild(item);
     });
+
+    conversionStatus.className = 'conversion-status';
+    if (data.conversionStatus === false && data.status === 200) {
+      conversionStatus.innerText = '* ' + chrome.i18n.getMessage('conversionFail');
+      pixel.querySelector('.pixel').classList.add('problem');
+      details.appendChild(conversionStatus);
+    } else if (data.conversionStatus === true && data.status === 200) {
+      conversionStatus.innerText = '* ' + chrome.i18n.getMessage('conversionSuccess');
+      details.appendChild(conversionStatus);
+    }
 
     return pixel;
   }
@@ -72,10 +84,10 @@
     pixelList.addEventListener('click', function(e) {
       var target = e.target;
       if (target.nodeName === 'SUMMARY') { return; }
-      while (target && target.nodeName !== 'LI') {
+      while (target && target.className !== 'pixel') {
         target = target.parentNode;
       }
-      if (!target || target.nodeName !== 'LI') { return; }
+      if (!target || target.className !== 'pixel') { return; }
       target.querySelector('summary').click();
     });
   }

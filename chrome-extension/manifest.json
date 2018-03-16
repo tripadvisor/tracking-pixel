@@ -3,6 +3,11 @@
 
   "name": "__MSG_extName__",
   "description": "__MSG_extDesc__",
+  "icons": {
+    "16": "ollie-16.png",
+    "48": "ollie-48.png",
+    "128": "ollie-128.png"
+  },
   "version": "0.0.1",
   "default_locale": "en",
   "background": {
@@ -20,6 +25,6 @@
   "permissions": [
     "activeTab",
     "webRequest",
-    "*://*.tripadvisor.com/"
+    "*://*.tamgrt.com/"
   ]
 }

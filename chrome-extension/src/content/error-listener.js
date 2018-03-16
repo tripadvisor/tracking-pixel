@@ -10,8 +10,6 @@
 
 (function(window, document, chrome) {
 
-  console.log('attached');
-
   var ERROR_EVENT = '__ta_tracking_error'; // Matches definition in taevents.js
 
   window.addEventListener('message', function(event) {

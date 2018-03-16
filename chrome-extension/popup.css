@@ -1,11 +1,12 @@
 body { margin: 0; padding: 0; width: 400px; color: #4a4a4a; }
 h1 {
     margin: 0;
-    padding: 18px 10px;
+    padding: 18px 10px 18px 55px;
     background: #f4f3f0;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     font-size: 18px;
     font-weight: normal;
+    background: url(./icon.png) 10px/40px no-repeat
 }
 
 #summary {
@@ -27,6 +28,10 @@ h1 {
 
 .pixel:hover {
     background: #f6f6f6;
+}
+
+.pixel.problem {
+    border-left-color: #FFC200;
 }
 
 .pixel.error {
@@ -62,10 +67,29 @@ summary {
 }
 
 .pixel-details {
-    padding: 10px 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.pixel-details li {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .key {
     font-weight: bold;
-    margin-right: 5px;
+    margin-right: 10px;
+    width: 50%;
+    display: inline-block;
+    border-right: 1px solid #ddd;
+    overflow: hidden;
+    vertical-align: bottom;
+    text-overflow: ellipsis;
+}
+
+.conversion-status {
+    color: #999;
+    position: relative;
+    top: 5px;
 }

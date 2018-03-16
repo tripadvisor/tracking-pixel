@@ -10,7 +10,7 @@
 
   'use strict';
 
-  var URL_PATTERN = "*://*.tripadvisor.com/TrackingPixel*"; // TODO: Change this to the real URL
+  var URL_PATTERN = "*://*.tamgrt.com/RT*";
 
   function guid() {
     function s4() {
@@ -20,6 +20,18 @@
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
       s4() + '-' + s4() + s4() + s4();
+  }
+
+  function isPixelRequest(details) {
+
+    // Pixel requests can only get GET or POST
+    if (['GET', 'POST'].indexOf(details.method) < 0) { return false; }
+
+    // These are special requests, and not pixels
+    if (details.url.indexOf('?-sync') >= 0 || details.url.indexOf('?-redirect') >= 0) { return false; }
+
+    // It must be a pixel!
+    return true;
   }
 
   function getParams(details) {
@@ -44,14 +56,32 @@
     }
   }
 
+  function validateConversion(params) {
+    if (!params.event || params.event.toUpperCase() !== "BOOKING_CONFIRMATION") { return null; }
+
+    var requiredParams = ['partner', 'refid', 'gbv', 'currency', 'order_id'];
+
+    for (var i in requiredParams) {
+      if (!requiredParams.hasOwnProperty(i)) { continue; }
+      if (!params[requiredParams[i]]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
-      if (details.tabId < 0 || ['GET', 'POST'].indexOf(details.method) < 0) { return; }
+      if (details.tabId < 0 || !isPixelRequest(details)) { return; }
+
+      var params = getParams(details);
 
       TabManager.logPixel(details.tabId, details.requestId, {
         url: details.url,
         status: -1,
-        params: getParams(details)
+        params: params,
+        conversionStatus: validateConversion(params)
       });
 
     },
@@ -61,7 +91,7 @@
 
   chrome.webRequest.onCompleted.addListener(
     function(details) {
-      if (details.tabId < 0 || ['GET', 'POST'].indexOf(details.method) < 0) { return; }
+      if (details.tabId < 0 || !isPixelRequest(details)) { return; }
 
       TabManager.logPixel(details.tabId, details.requestId, {
         url: details.url,
@@ -81,8 +111,3 @@
   });
 
 })(window, chrome);
-
-// TODO: Remove this
-function log() {
-  chrome.extension.getBackgroundPage().console.log.apply(chrome.extension.getBackgroundPage().console, arguments);
-}

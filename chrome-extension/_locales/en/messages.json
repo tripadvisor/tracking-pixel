@@ -1,10 +1,10 @@
 {
   "extName": {
-    "message": "TA Pixel Helper",
+    "message": "TripAdvisor Pixel Validator",
     "description": "Name of the extension"
   },
   "extDesc": {
-    "message": "Helps validate your TripAdvisor Custom Audience pixels.",
+    "message": "Helps validate your TripAdvisor Retargeting pixel integration.",
     "description": "Description of the extension"
   },
   "noPixels": {
@@ -29,8 +29,8 @@
     "description": "Heading for an invalid pixel request"
   },
   "eventId": {
-    "message": "Event ID: $EVENT_ID$",
-    "description": "Label for the pixel's event id",
+    "message": "Event Type: $EVENT_ID$",
+    "description": "Label for the pixel's event type",
     "placeholders": {
       "event_id": {
         "content": "$1"
@@ -40,5 +40,17 @@
   "details": {
     "message": "View details",
     "description": "Label for the pixel details toggle"
+  },
+  "noConversion": {
+    "message": "Conversions are not being reported",
+    "description": "Message when a pixel contains no conversion data"
+  },
+  "conversionFail": {
+    "message": "Failed to report conversion",
+    "description": "Message when a pixel contains incorrect/incomplete conversion data"
+  },
+  "conversionSuccess": {
+    "message": "Conversion successfully reported",
+    "description": "Message when a pixel contains correct conversion data"
   }
 }
