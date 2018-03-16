@@ -53,7 +53,7 @@
       if (!tabs[tabId]) { return; }
       var tab = tabs[tabId]
       ,   pixel = tab.pixels[requestId]
-      ,   error = data.status > 0 && data.status !== 200
+      ,   error = data.status < 200 || data.status >= 300
       ;
 
       if (!pixel) {
