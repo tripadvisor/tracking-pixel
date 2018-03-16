@@ -19,7 +19,7 @@
     ,   isConversion = data.conversionStatus !== null
     ;
 
-    if (data.status !== 200) {
+    if (data.status < 200 || data.status >= 300) {
       pixel.querySelector('.pixel').classList.add('error');
       pixel.querySelector(".pixel-status").innerText = data.errorMsg || chrome.i18n.getMessage("failure");
     } else {

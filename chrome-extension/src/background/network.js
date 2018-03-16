@@ -79,7 +79,7 @@
 
       TabManager.logPixel(details.tabId, details.requestId, {
         url: details.url,
-        status: -1,
+        status: 200,
         params: params,
         conversionStatus: validateConversion(params)
       });
