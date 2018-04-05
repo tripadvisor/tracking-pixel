@@ -11,7 +11,7 @@
 (function(window, document, undefined) {
   'use strict';
 
-  var URL = 'http://mtownsend.nw.dev.tripadvisor.com/TrackingPixel';
+  var URL = 'INSERT_PIXEL_URL_HERE';
   var POST_MAX = 1024; // Max size of the POST payload (TBD)
   var ERROR_EVENT = '__ta_tracking_error'; // Matches definition in error-listener.js
 
